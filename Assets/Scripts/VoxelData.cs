@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VoxelData : MonoBehaviour
+public static class VoxelData
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public static readonly Vector3[] voxelVertices = new Vector3[8] {
+        new Vector3(0.0f,0.0f,0.0f),
+        new Vector3(1.0f,0.0f,0.0f),
+        new Vector3(1.0f,1.0f,0.0f),
+        new Vector3(0.0f,1.0f,0.0f),
+        new Vector3(0.0f,0.0f,1.0f),
+        new Vector3(1.0f,0.0f,1.0f),
+        new Vector3(1.0f,1.0f,1.0f),
+        new Vector3(0.0f,1.0f,1.0f)
     }
 }
