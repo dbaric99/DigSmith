@@ -4,8 +4,8 @@ using UnityEngine;
 
 public static class VoxelData
 {
-    public static readonly int ChunkWidth = 16;
-    public static readonly int ChunkHeight = 16;
+    public static readonly int ChunkWidth = 5;
+    public static readonly int ChunkHeight = 5;
 
     public static readonly Vector3[] voxelVertices = new Vector3[8] {
 

@@ -72,6 +72,13 @@ public class Chunk : MonoBehaviour
         y: Mathf.FloorToInt(position.y),
         z: Mathf.FloorToInt(position.z)
         );
+
+        // Check if index is out of range
+        if (positionCoords.x < 0 || positionCoords.x > VoxelData.ChunkWidth - 1 ||
+            positionCoords.y < 0 || positionCoords.y > VoxelData.ChunkHeight - 1 ||
+            positionCoords.z < 0 || positionCoords.z > VoxelData.ChunkWidth - 1)
+            return false;
+
         return voxelMap[positionCoords.x, positionCoords.y, positionCoords.z];
     }
 
