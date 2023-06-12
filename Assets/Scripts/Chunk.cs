@@ -21,15 +21,16 @@ public class Chunk : MonoBehaviour
 
     }
 
-    void AddVoxelToChunk()
+    void AddVoxelToChunk(Vector3 position)
     {
         for (int j = 0; j < SIDES_NUMBER; j++)
         {
             for (int i = 0; i < SIDES_NUMBER; i++)
             {
                 int triangleIndex = VoxelData.voxelTriangles[j, i];
-                vertices.Add(VoxelData.voxelVertices[triangleIndex]);
+                vertices.Add(VoxelData.voxelVertices[triangleIndex] + position);
                 triangles.Add(vertexIndex);
+
                 uvs.Add(VoxelData.voxelUvs[i]);
                 vertexIndex++;
             }
