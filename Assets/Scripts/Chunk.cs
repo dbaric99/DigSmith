@@ -15,8 +15,17 @@ public class Chunk : MonoBehaviour
 
     void Start()
     {
+        for (int y = 0; y < VoxelData.ChunkHeight; y++)
+        {
+            for (int x = 0; x < VoxelData.ChunkWidth; x++)
+            {
+                for (int z = 0; z < VoxelData.ChunkWidth; z++)
+                {
+                    AddVoxelToChunk(new Vector3(x, y, z));
+                }
+            }
+        }
 
-        AddVoxelToChunk();
         CreateMesh();
 
     }

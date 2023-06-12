@@ -4,6 +4,9 @@ using UnityEngine;
 
 public static class VoxelData
 {
+    public static readonly int ChunkWidth = 16;
+    public static readonly int ChunkHeight = 16;
+
     public static readonly Vector3[] voxelVertices = new Vector3[8] {
 
         new Vector3(0.0f,0.0f,0.0f), // --> 0
