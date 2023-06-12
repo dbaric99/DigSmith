@@ -20,6 +20,15 @@ public static class VoxelData
     
     };
 
+    public static readonly Vector3[] checks = new Vector3[6] {
+        new Vector3(0.0f, 0.0f, -1.0f), //Back Square
+        new Vector3(0.0f, 0.0f, 1.0f), //Front Square
+        new Vector3(0.0f, 1.0f, 0.0f), //Top Square
+        new Vector3(0.0f, -1.0f, 0.0f), //Bottom Square
+        new Vector3(-1.0f, 0.0f, 0.0f), //Left Square
+        new Vector3(1.0f, 0.0f, 0.0f) //Right Square
+    };
+
     public static readonly int[,] voxelTriangles = new int[6, 6] {
         {0, 3, 1, 1, 3, 2}, //Back Square
         {5, 6, 4, 4, 6, 7}, //Front Square

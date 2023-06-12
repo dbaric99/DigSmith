@@ -12,20 +12,12 @@ public class Chunk : MonoBehaviour
     List<Vector3> vertices = new List<Vector3>();
     List<int> triangles = new List<int>();
     List<Vector2> uvs = new List<Vector2>();
+    bool[,,] voxelMap = new bool[VoxelData.ChunkWidth, VoxelData.ChunkHeight, VoxelData.ChunkWidth];
 
     void Start()
     {
-        for (int y = 0; y < VoxelData.ChunkHeight; y++)
-        {
-            for (int x = 0; x < VoxelData.ChunkWidth; x++)
-            {
-                for (int z = 0; z < VoxelData.ChunkWidth; z++)
-                {
-                    AddVoxelToChunk(new Vector3(x, y, z));
-                }
-            }
-        }
-
+        FillVoxelMap();
+        CreateChunk();
         CreateMesh();
 
     }
@@ -34,6 +26,7 @@ public class Chunk : MonoBehaviour
     {
         for (int j = 0; j < SIDES_NUMBER; j++)
         {
+            if (HasNeighbour(position + VoxelData.checks[j])) continue;
             for (int i = 0; i < SIDES_NUMBER; i++)
             {
                 int triangleIndex = VoxelData.voxelTriangles[j, i];
@@ -55,5 +48,35 @@ public class Chunk : MonoBehaviour
 
         mesh.RecalculateNormals();
         meshFilter.mesh = mesh;
+    }
+
+    void FillVoxelMap()
+    {
+        for (int y = 0; y < VoxelData.ChunkHeight; y++)
+        {
+            for (int x = 0; x < VoxelData.ChunkWidth; x++)
+            {
+                for (int z = 0; z < VoxelData.ChunkWidth; z++)
+                {
+                    //TODO refactor
+                    voxelMap[x, y, z] = true;
+                }
+            }
+        }
+    }
+
+    bool HasNeighbour(Vector3 position)
+    {
+        var positionCoords = (
+        x: Mathf.FloorToInt(position.x),
+        y: Mathf.FloorToInt(position.y),
+        z: Mathf.FloorToInt(position.z)
+        );
+        return voxelMap[positionCoords.x, positionCoords.y, positionCoords.z];
+    }
+
+    void CreateChunk()
+    {
+
     }
 }
