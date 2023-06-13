@@ -26,15 +26,26 @@ public class Chunk : MonoBehaviour
     {
         for (int j = 0; j < SIDES_NUMBER; j++)
         {
-            if (HasNeighbour(position + VoxelData.checks[j])) continue;
-            for (int i = 0; i < SIDES_NUMBER; i++)
+            if (!HasNeighbour(position + VoxelData.checks[j]))
             {
-                int triangleIndex = VoxelData.voxelTriangles[j, i];
-                vertices.Add(VoxelData.voxelVertices[triangleIndex] + position);
-                triangles.Add(vertexIndex);
+                vertices.Add(position + VoxelData.voxelVertices[VoxelData.voxelTriangles[j, 0]]);
+                vertices.Add(position + VoxelData.voxelVertices[VoxelData.voxelTriangles[j, 1]]);
+                vertices.Add(position + VoxelData.voxelVertices[VoxelData.voxelTriangles[j, 2]]);
+                vertices.Add(position + VoxelData.voxelVertices[VoxelData.voxelTriangles[j, 3]]);
 
-                uvs.Add(VoxelData.voxelUvs[i]);
-                vertexIndex++;
+                uvs.Add(VoxelData.voxelUvs[0]);
+                uvs.Add(VoxelData.voxelUvs[1]);
+                uvs.Add(VoxelData.voxelUvs[2]);
+                uvs.Add(VoxelData.voxelUvs[3]);
+
+                triangles.Add(vertexIndex);
+                triangles.Add(vertexIndex + 1);
+                triangles.Add(vertexIndex + 2);
+                triangles.Add(vertexIndex + 2);
+                triangles.Add(vertexIndex + 1);
+                triangles.Add(vertexIndex + 3);
+
+                vertexIndex += 4;
             }
         }
     }
@@ -84,6 +95,15 @@ public class Chunk : MonoBehaviour
 
     void CreateChunk()
     {
-
+        for (int y = 0; y < VoxelData.ChunkHeight; y++)
+        {
+            for (int x = 0; x < VoxelData.ChunkWidth; x++)
+            {
+                for (int z = 0; z < VoxelData.ChunkWidth; z++)
+                {
+                    AddVoxelToChunk(new Vector3(x, y, z));
+                }
+            }
+        }
     }
 }

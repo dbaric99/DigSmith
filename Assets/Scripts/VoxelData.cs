@@ -5,7 +5,7 @@ using UnityEngine;
 public static class VoxelData
 {
     public static readonly int ChunkWidth = 5;
-    public static readonly int ChunkHeight = 5;
+    public static readonly int ChunkHeight = 15;
 
     public static readonly Vector3[] voxelVertices = new Vector3[8] {
 
@@ -29,13 +29,14 @@ public static class VoxelData
         new Vector3(1.0f, 0.0f, 0.0f) //Right Square
     };
 
-    public static readonly int[,] voxelTriangles = new int[6, 6] {
-        {0, 3, 1, 1, 3, 2}, //Back Square
-        {5, 6, 4, 4, 6, 7}, //Front Square
-        {3, 7, 2, 2, 7, 6}, //Top Square
-        {1, 5, 0, 0, 5, 4}, //Bottom Square
-        {4, 7, 0, 0, 7, 3}, //Left Square
-        {1, 2, 5, 5, 2, 6} //Right Square
+    public static readonly int[,] voxelTriangles = new int[6, 4] {
+        // pattern indexes(loops back): 0 1 2 2 1 3
+        {0, 3, 1, 2}, //Back Square
+        {5, 6, 4, 7}, //Front Square
+        {3, 7, 2, 6}, //Top Square
+        {1, 5, 0, 4}, //Bottom Square
+        {4, 7, 0, 3}, //Left Square
+        {1, 2, 5, 6} //Right Square
     };
 
     public static readonly Vector2[] voxelUvs = new Vector2[6] {
