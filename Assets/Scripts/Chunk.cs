@@ -12,10 +12,14 @@ public class Chunk : MonoBehaviour
     List<Vector3> vertices = new List<Vector3>();
     List<int> triangles = new List<int>();
     List<Vector2> uvs = new List<Vector2>();
-    bool[,,] voxelMap = new bool[VoxelData.ChunkWidth, VoxelData.ChunkHeight, VoxelData.ChunkWidth];
+
+    byte[,,] voxelMap = new byte[VoxelData.ChunkWidth, VoxelData.ChunkHeight, VoxelData.ChunkWidth];
+    World world;
 
     void Start()
     {
+        world = GameObject.FindGameObjectWithTag("World").GetComponent<World>();
+
         FillVoxelMap();
         CreateChunk();
         CreateMesh();
@@ -33,10 +37,7 @@ public class Chunk : MonoBehaviour
                 vertices.Add(position + VoxelData.voxelVertices[VoxelData.voxelTriangles[j, 2]]);
                 vertices.Add(position + VoxelData.voxelVertices[VoxelData.voxelTriangles[j, 3]]);
 
-                uvs.Add(VoxelData.voxelUvs[0]);
-                uvs.Add(VoxelData.voxelUvs[1]);
-                uvs.Add(VoxelData.voxelUvs[2]);
-                uvs.Add(VoxelData.voxelUvs[3]);
+                Texturize(8);
 
                 triangles.Add(vertexIndex);
                 triangles.Add(vertexIndex + 1);
@@ -69,8 +70,7 @@ public class Chunk : MonoBehaviour
             {
                 for (int z = 0; z < VoxelData.ChunkWidth; z++)
                 {
-                    //TODO refactor
-                    voxelMap[x, y, z] = true;
+                    voxelMap[x, y, z] = 0;
                 }
             }
         }
@@ -90,7 +90,7 @@ public class Chunk : MonoBehaviour
             positionCoords.z < 0 || positionCoords.z > VoxelData.ChunkWidth - 1)
             return false;
 
-        return voxelMap[positionCoords.x, positionCoords.y, positionCoords.z];
+        return world.blockTypes[voxelMap[positionCoords.x, positionCoords.y, positionCoords.z]].isSolid;
     }
 
     void CreateChunk()
@@ -105,5 +105,19 @@ public class Chunk : MonoBehaviour
                 }
             }
         }
+    }
+
+    void Texturize(int textureId)
+    {
+        float yTextureCoord = textureId / VoxelData.AtlasSize;
+        float xTextureCoord = textureId - (yTextureCoord * VoxelData.AtlasSize);
+        yTextureCoord *= VoxelData.BlockTextureSize;
+        xTextureCoord *= VoxelData.BlockTextureSize;
+
+        uvs.Add(new Vector2(xTextureCoord, yTextureCoord));
+        uvs.Add(new Vector2(xTextureCoord, yTextureCoord + VoxelData.BlockTextureSize));
+        uvs.Add(new Vector2(xTextureCoord + VoxelData.BlockTextureSize, yTextureCoord));
+        uvs.Add(new Vector2(xTextureCoord + VoxelData.BlockTextureSize, yTextureCoord + VoxelData.BlockTextureSize));
+
     }
 }
